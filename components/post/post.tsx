@@ -39,7 +39,6 @@ const PostIncident: React.FC<PostIncidentProps> = (props) => {
 			<Color color={post.color} ref={colorRef}/>
 		</PostHeader>
       		<Content content={post.content} ref={contentRef} />
-  
     </PostIncidentCont>);
 };
 
