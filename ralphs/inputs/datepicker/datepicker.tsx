@@ -17,12 +17,12 @@ const DatePicker: React.FC<DatePickerProps> = (props, ref:any) => {
 			<MuiPickersUtilsProvider utils={DateFnsUtils}>
 			  <DateTimePicker
 			  
-          variant="inline"
-          value={props.selectedDate}
-          onChange={props.setSelectedDate}
-          format="MM/dd/yyyy HH:mm"
-          margin="normal"
-          label={"Date:"}
+				  variant="inline"
+				  value={props.selectedDate}
+				  onChange={props.setSelectedDate}
+				  format="MM/dd/yyyy HH:mm"
+				  margin="normal"
+				  label={"Date:"}
 				
 			  />
 			</MuiPickersUtilsProvider>
