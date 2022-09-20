@@ -18,7 +18,7 @@ export const usePostSubmit = ({ id, selectedDate }: { id: number, selectedDate: 
     useEffect(()=>{
       if (id == -1) {
         setButtonText('Create');
-      } else if (id > -1) {
+      } else {
         setButtonText('Update');
       }
     }, [id]);
