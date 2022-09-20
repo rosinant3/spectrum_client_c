@@ -1,2 +1,2 @@
 # spectrum_client_c
-client components
+react.js client
