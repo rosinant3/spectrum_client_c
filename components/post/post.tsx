@@ -5,6 +5,7 @@ import {
   IncidentFormHeader,
   ButtonContainerRight,
   PostButton
+	
 } from '../mapComponents';
 import { useParams } from 'react-router-dom';
 import Color from '../../../../ralphs/inputs/color/color';
