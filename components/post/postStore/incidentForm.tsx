@@ -22,7 +22,7 @@ const incidentForm: incidentFormTypes = {
     */
 };
     
-const incidentFormReducer: Reducer = (state : incidentFormTypes = incidents, action: AnyAction | incidentFormActionTypes) => {
+const incidentFormReducer: Reducer = (state : incidentFormTypes = incidentForm, action: AnyAction | incidentFormActionTypes) => {
   
     switch (action.type) {
     case incidentFormAddGraphic:
