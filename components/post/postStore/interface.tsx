@@ -1,27 +1,27 @@
+import { pageType } from '../interface';
+
 export interface IGraphics {
     coordinates: string;
     type: string;
     uid: number;
 }
 
-export type generateGeometryFunc = (geometry: any, uid: number) => IGraphics;
-
-export type pageType = {
-    currentPage: number; 
-    from: number; 
-    lastPage: number;
-    offset: number;
-    perPage: number;
-    to: number;
-    total: number;
-    waiting: string;
-    tags: number;
-    hook: number;
-    endHook: number;
-    error: string;
+interface IGeometry {
+    geoArray: string[];
+    geoData: any[];
+    uid: number;
 };
 
-type textInput = { value: string; error: string; };
+export interface IGeometryPayload {
+    server: string[];
+    client: any[];
+    uid: number;
+};
+
+export type generateGeometryFunc = (geometry: any, uid: number) => IGeometry;
+
+
+export type textInput = { value: string; error: string; };
 
 type fileInput = { items: any[], page: pageType; error: string; };
 
@@ -36,7 +36,9 @@ export interface incidentFormTypes {
     images: fileInput,
     files: fileInput;
     graphics: fileInput;
+    serverGraphics: string[][],
     videos: fileInput;
+    waiting: boolean;
 }
   
 export interface incidentFormActionTypes {
@@ -45,3 +47,13 @@ export interface incidentFormActionTypes {
     payload: {         
         data: any;
     };
+}
+
+export interface IGetData {
+    hook: string;
+    currentPage: number;
+    perPage: number;
+    case_: number;
+}
+
+export type IGetFunction = (data: IGetData, config: any) => Promise<any>;

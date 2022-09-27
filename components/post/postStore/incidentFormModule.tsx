@@ -1,8 +1,7 @@
-import 
-    incidentFormReducer
-from './incidents';
+import incidentFormReducer from './incidentForm';
 import thunkMiddleware from 'redux-thunk'
 import createSagaMiddleware from 'redux-saga';
+import formSaga from './sagas/formSaga/formSaga';
 
 export function getIncidentFormModule() { 
     
@@ -12,5 +11,6 @@ export function getIncidentFormModule() {
             incidentForm: incidentFormReducer
         },
         middleWare: [thunkMiddleware, createSagaMiddleware],
+        sagas: [ formSaga ]
     };
 };
