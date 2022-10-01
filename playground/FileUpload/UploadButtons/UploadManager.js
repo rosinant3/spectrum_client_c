@@ -29,8 +29,14 @@ uploadManager.filterInvalidFiles = function(files) {
 };
     
 uploadManager.appendObjectUrl = function (files) {
-        files.forEach((file)=>{
-            file.url = URL.createObjectURL(file)
+        return files.map((file)=>{
+            return { 
+                data: file, 
+                url: file.url = URL.createObjectURL(file), 
+                progress: 0,
+                error: '',
+                type: file.type
+            };
         });
         return files;
 };
@@ -39,7 +45,7 @@ uploadManager.filterImages = function (files) {
         return files.filter((file)=>{
             return _imageExtensions.includes(file.type);
         });
-},
+};
 
 uploadManager.filterFiles = function (files) {
         return files.filter((file)=>{
