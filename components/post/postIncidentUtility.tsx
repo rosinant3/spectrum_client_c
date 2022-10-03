@@ -6,7 +6,7 @@ import {
     incidentFormDatepickerErrorAction,
     incidentFormErrorAction
 
-} from '../redux/incidentForm/actions';
+} from '../redux/incidentForm/actions/actions';
 
 export const validationFunctions = {
     colorValidation: (value: string, dispatch:any) => {

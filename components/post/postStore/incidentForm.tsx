@@ -1,6 +1,5 @@
 import { Reducer, AnyAction } from 'redux';
 import { incidentFormTypes, incidentFormActionTypes } from './interface';
-import { generatePage } from '../utility';
 import { 
     
     incidentFormAddGraphic, 
@@ -8,23 +7,30 @@ import {
     toggleIncidentWaiting,
     addIncident,
     incidentFormError,
-    incidentFormContentError,
+    incidentFormContentError, 
     incidentFormColorError,
-    incidentFormDatepickerError
+    incidentFormDatepickerError,
 
-} from './actionTypes'; 
+    addIncidentFiles,
+
+} from './actions/types'; 
 import { 
     
-    incidentFormAddGraphicReducer, 
-    incidentFormDeleteGraphicReducer,
-    indicentFormWaitingReducer,
-    incidentFormContentErrorReducer,
-    incidentFormDatepickerErrorReducer,
-    incidentFormColorErrorReducer,
-    incidentFormErrorReducer
+    addGraphicReducer, 
+    deleteGraphicReducer,
+    waitingReducer,
+    contentErrorReducer,
+    datepickerErrorReducer,
+    colorErrorReducer,
+    errorReducer
 
+} from './reducers/incidentFormReducers';
 
-} from './incidentFormReducers';
+import {
+
+    addFilesReducer
+
+} from './reducers/filesReducers/filesReducers';
 
 const incidentForm: incidentFormTypes = {
     id: -1,
@@ -33,12 +39,9 @@ const incidentForm: incidentFormTypes = {
     generalError: "",
     dateTime: { value: new Date(), error: "" },
     color: { value: "rgba(46, 25, 46, 0.5)", error: "" },
-    images: { items: [], page: generatePage(), error: "" },
-    files: { items: [], page: generatePage(), error: "" },
-    videos: { items: [], page: generatePage(), error: "" },
-    graphics: { items: [], page: generatePage(), error: "" },
-    serverGraphics: [],
-    waiting: false
+    graphics: { client: [], server: [] },
+    fileUpload: { images: [], files: [], invalidFiles: [] },
+    waiting: false 
     /*
     items: [],
     data: {},
@@ -53,19 +56,21 @@ const incidentFormReducer: Reducer = (state : incidentFormTypes = incidentForm, 
 
     return { ...state };
     case toggleIncidentWaiting:
-    return indicentFormWaitingReducer({ payload: null, state });
+    return waitingReducer(state, null);
     case incidentFormAddGraphic:
-    return incidentFormAddGraphicReducer({ payload: action.payload, state });
+    return addGraphicReducer(state, action.payload);
     case incidentFormDeleteGraphic:
-    return incidentFormDeleteGraphicReducer({  payload: action.payload, state });
+    return deleteGraphicReducer(state, action.payload);
     case incidentFormError:
-    return incidentFormErrorReducer({ payload: action.payload, state });
+    return errorReducer(state, action.payload);
     case incidentFormContentError:
-    return incidentFormContentErrorReducer({  payload: action.payload, state }); 
+    return contentErrorReducer(state, action.payload); 
     case incidentFormColorError:
-    return incidentFormColorErrorReducer({  payload: action.payload, state });  
+    return colorErrorReducer(state, action.payload);  
     case incidentFormDatepickerError:
-    return incidentFormDatepickerErrorReducer({  payload: action.payload, state });   
+    return datepickerErrorReducer(state, action.payload);   
+    case addIncidentFiles:
+    return addFilesReducer(state, action.payload);
     default:
     return { ...state };
     }

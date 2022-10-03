@@ -1,7 +1,7 @@
 import { useRef, useCallback, FormEvent } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { incidentFormTypes } from '../redux/incidentForm/interface';
-import { incidentFormAddAction } from '../redux/incidentForm/actions';
+import { incidentFormAddAction } from '../redux/incidentForm/actions/actions';
 import { validationFunctions } from './postIncidentUtility';
 import { IData, dataKeys } from './interface';
 
@@ -41,36 +41,36 @@ const useGraphicsSelector = (caseUrl:string) => {
     const incidentForm: incidentFormTypes = state.incidentForm;
     const caseId = state.casesData.data[caseUrl].id;
     const userId = state.admin.login.details.iduser;
-    const graphics = incidentForm.graphics.items;
-    const serverGraphics = incidentForm.serverGraphics;
-    const hasGraphics = graphics.length > 0;
-    return { serverGraphics, graphics, hasGraphics, userId, caseId};
+    const { server, client } = incidentForm.graphics;
+    const hasGraphics = server.length > 0;
+    return { server, client, hasGraphics, userId, caseId};
   });
 }
 
-export const usePostSubmit = ({ caseUrl, incidentId, selectedDate }: { caseUrl: string; incidentId: number; selectedDate: Date | null; }) => {
+export const usePostSubmit = ({ caseUrl, incidentId }: { caseUrl: string; incidentId: number; }) => {
 
     const dispatch = useDispatch();
     const { isInputValid } = useValidateInput(dispatch);
-    const { serverGraphics, graphics, hasGraphics, userId, caseId } = useGraphicsSelector(caseUrl);
-    const contentRef:any = useRef(null);
-    const colorRef:any = useRef(null);
+    const { server, client, hasGraphics, userId, caseId } = useGraphicsSelector(caseUrl);
 
     const submitForm = useCallback((e: FormEvent<HTMLFormElement>)=>{
 
       e.preventDefault(); 
-      if (!contentRef.current) return;
-      if (!colorRef.current) return;
-      if (!selectedDate) return;
-      if (!graphics) return;
+      if (!server) return;
+      const form:any = e.currentTarget;
+      const selectedDate = form[1].value;
+      const color = form[2].value;
+      const content = form[3].value;
 
-      const content:string = contentRef.current.children[0].children[0].value; // risky, don't do this at home
       const data:IData = {
         selectedDate: selectedDate,
         content: content, 
-        color: colorRef.current.state.hex,
-        graphics: { server: serverGraphics, client: graphics }
+        color: color,
+        graphics: { server: server, client: client }
       };
+
+      console.log(data);
+      return false;
 
       if (!isInputValid(data)) return;
 
@@ -85,11 +85,9 @@ export const usePostSubmit = ({ caseUrl, incidentId, selectedDate }: { caseUrl: 
 
       }
       
-    }, [ contentRef, colorRef, selectedDate, graphics, hasGraphics, incidentId ]);
+    }, [ server, client, hasGraphics, incidentId ]);
 
     return { 
-      submitForm,
-      contentRef,
-      colorRef
+      submitForm
     };
 };

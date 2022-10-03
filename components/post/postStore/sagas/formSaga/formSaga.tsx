@@ -2,8 +2,8 @@
 
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 import { postForm } from './formHttp';
-import { addIncident, toggleIncidentWaiting  } from '../../actionTypes';
-import { incidentFormAddAction, incidentFormErrorAction } from '../../actions';
+import { addIncident, toggleIncidentWaiting  } from '../../actions/types';
+import { incidentFormAddAction, incidentFormErrorAction } from '../../actions/actions';
 import { generateFormData } from '../utils';
 
 // worker Saga: will be fired on USER_FETCH_REQUESTED actions

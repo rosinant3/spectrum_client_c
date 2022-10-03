@@ -7,15 +7,13 @@ export interface IGraphics {
 }
 
 interface IGeometry {
-    geoArray: string[];
-    geoData: any[];
-    uid: number;
+    server: string[];
+    client:  { uid: number, geoData: { data: any; uid: number }};
 };
 
 export interface IGeometryPayload {
     server: string[];
     client: any[];
-    uid: number;
 };
 
 export type generateGeometryFunc = (geometry: any, uid: number) => IGeometry;
@@ -33,11 +31,8 @@ export interface incidentFormTypes {
     color: textInput;
     video: any;
     generalError: string;
-    images: fileInput,
-    files: fileInput;
-    graphics: fileInput;
-    serverGraphics: string[][],
-    videos: fileInput;
+    graphics: { server: string[][], client: any[] };
+    fileUpload: { images: any[], files: any[], invalidFiles: any[] };
     waiting: boolean;
 }
   
