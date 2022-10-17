@@ -11,8 +11,6 @@ import {
     incidentFormColorError,
     incidentFormDatepickerError,
 
-    addIncidentFiles,
-
 } from './actions/types'; 
 import { 
     
@@ -22,13 +20,26 @@ import {
     contentErrorReducer,
     datepickerErrorReducer,
     colorErrorReducer,
-    errorReducer
-
+    errorReducer,
+    
 } from './reducers/incidentFormReducers';
 
+import { 
+
+    addIncidentFiles,
+    incidentAddFileId,
+    incidentFileWaiting,
+    incidentFilePause,
+    incidentFileSetProgress
+    
+} from './actions/files/types'; 
 import {
 
-    addFilesReducer
+    addFilesReducer,
+    addFileIdReducer,
+    fileWaitingReducer,
+    filePauseReducer,
+    setProgressReducer
 
 } from './reducers/filesReducers/filesReducers';
 
@@ -71,6 +82,14 @@ const incidentFormReducer: Reducer = (state : incidentFormTypes = incidentForm, 
     return datepickerErrorReducer(state, action.payload);   
     case addIncidentFiles:
     return addFilesReducer(state, action.payload);
+    case incidentAddFileId:
+    return addFileIdReducer(state, action.payload);
+    case incidentFileWaiting:
+    return fileWaitingReducer(state, action.payload);
+    case incidentFilePause:
+    return filePauseReducer(state, action.payload);
+    case incidentFileSetProgress:
+    return setProgressReducer(state, action.payload);
     default:
     return { ...state };
     }

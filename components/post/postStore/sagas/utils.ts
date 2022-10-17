@@ -2,7 +2,6 @@ import moment from 'moment';
 
 
 export const generateFormData = (data:any) => {
-console.log(data);
     const formData = new FormData();
           formData.append('dateTime', moment(data.selectedDate).format('YYYY-MM-DD HH:mm'));
           formData.append('content', data.content);

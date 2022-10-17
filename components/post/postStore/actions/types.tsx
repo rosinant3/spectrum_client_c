@@ -1,5 +1,4 @@
 export const addIncident = 'incidentForm/post/add';
-export const addIncidentFiles = 'incidentForm/files/add';
 export const incidentFormAdded = 'incidentForm/post/added';
 export const incidentFormError = 'incidentForm/post/error';
 export const incidentFormContentError = 'incidentForm/post/content/error';

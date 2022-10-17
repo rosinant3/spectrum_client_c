@@ -1,21 +1,14 @@
 import { 
+    
     incidentFormAddGraphic, 
     incidentFormDeleteGraphic,
     addIncident,
     incidentFormError,
     incidentFormContentError,
     incidentFormColorError,
-    incidentFormDatepickerError,
-    addIncidentFiles
+    incidentFormDatepickerError
 
 } from './types';
- 
-export const incidentAddFilesAction = (payload: any) =>{
-    return {
-        type: addIncidentFiles,
-        payload: payload
-    };
-};
 
 export const incidentFormContentErrorAction = (payload: any) =>{
     return {
@@ -51,7 +44,6 @@ export const incidentFormErrorAction = (payload: any) =>{
         payload: payload
     };
 };
-
 
 export const incidentFormAddGraphicAction = (payload: { server: string[], client: any }) =>{
     return {
