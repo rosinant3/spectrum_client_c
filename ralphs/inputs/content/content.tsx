@@ -1,16 +1,17 @@
-import React, { useCallback, useState, useEffect } from 'react';
-import { ContentContainer } from '../inputComponents';
+
+
+import React from 'react';
+import { ColorContainer } from '../color/colorDateStyles';
 import TextField from '@material-ui/core/TextField';
 import { useContent } from './contentHooks';
 
 interface ContentProps {
     content: { value: string, error: string; };
-    ref:any;
 } 
 
-const Content: React.FC<ContentProps> = React.forwardRef((props, ref:any) => {
+const Content: React.FC<ContentProps> = (props) => {
   const { content, contentOnChange, contentError } = useContent(props.content)
-  return (<ContentContainer>
+  return (<ColorContainer>
         <TextField
 
             error={contentError.status}
@@ -27,10 +28,9 @@ const Content: React.FC<ContentProps> = React.forwardRef((props, ref:any) => {
             minRows={7}
             maxRows={9}
             onChange={contentOnChange}  
-            ref={ref}
 
         />
-  </ContentContainer>);
-});
+  </ColorContainer>);
+};
 
 export default Content;

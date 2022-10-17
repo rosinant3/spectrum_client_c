@@ -1,0 +1,1 @@
+export type actionFunction = (payload: any) => { type: string; payload: any; };
