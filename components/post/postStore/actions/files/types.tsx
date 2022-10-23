@@ -5,3 +5,6 @@ export const incidentFileWaiting = 'incidentForm/file/upload/waiting';
 export const incidentFileUpload = 'incidentForm/file/upload';
 export const incidentFilePause = 'incidentForm/file/pause';
 export const incidentFileSetProgress = 'incidentForm/file/setProgress';
+export const incidentGetPendingFiles = 'incidentForm/file/getPendingFiles';
+export const incidentPendingFilesWaiting = 'incidentForm/file/waitingOnPendingFiles';
+export const incidentAddPendingFiles = 'incidentForm/file/addPendingFiles';

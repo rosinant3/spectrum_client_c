@@ -36,15 +36,18 @@ uploadManager.appendObjectUrl = function (files:any) {
             return { 
                 url: URL.createObjectURL(file), 
                 error: '',
-                type: file.type,
-                name: file.name,
+                mimetype: file.type,
+                name: file.name, 
                 fileId: '',
-                id: this.uid(),
+                id: -1,
+                clientId: this.uid(),
                 progress: {
                     startingByte: 0,
                     loaded: 0,
                     percentage: 0,
-                    waiting: false
+                    waiting: false,
+                    processing: false,
+                    paused: false
                 }
             };
         });

@@ -5,53 +5,55 @@ import { css } from '@emotion/react';
 import { enterList } from './StyleKeyframes';
 import { useDispatch } from 'react-redux';
 
-export const useFileUpload = ({ file, index, fileUpload }:{ file:any, index: number, fileUpload:any }) => {
+export const useFileUpload = ({ file, fileUpload }:{ file:any, fileUpload:any }) => {
 
     const dispatch = useDispatch(); 
     useEffect(()=>{
 
         const fileUploadCondition = 
-                        file.fileId !== '' && 
-                        file.progress.waiting === false; // &&
-                      //  file.paused === false &&
-                      //  file.aborted === false;
-
+                        file.id > 0 &&
+                        file.fileId &&
+                        file.progress.percentage < 100 &&
+                        file.progress.startingByte > -1 &&
+                        file.progress.paused === false; 
+ 
         if (fileUploadCondition) {
             dispatch(fileUpload(file));
         }
 
-    }, [ index, file.fileId ]);
+    }, [ file.fileId, file.progress.percentage, file.id, file.progress.startingByte, file.progress.paused]);
 };
 
-export const useFileStatus = ({ file, index, fileStatus }:{ file:any, index: number, fileStatus:any }) => {
+export const useFileStatus = ({ file, fileStatus }:{ file:any, fileStatus:any }) => {
 
     const dispatch = useDispatch(); 
     useEffect(()=>{
 
         const fileRequestCondition =  
-                file.fileId === '' && 
-                file.progress.waiting === false &&
-                file.paused === false;
+                file.id > 0 && 
+                file.progress.startingByte == -1 &&
+                file.progress.waiting === false;
 
         if (fileRequestCondition) {
-            //dispatch(fileStatus(file));
+            dispatch(fileStatus(file));
         }
 
-    }, [ index, file.fileId, file.waiting, file.paused ]);
+    }, [ file.fileId, file.waiting, file.paused ]);
 };
 
-export const useFileRequest = ({ file, index, uploadRequest }:{ file:any, index: number, uploadRequest:any }) => {
+export const useFileRequest = ({ file, uploadRequest }:{ file:any, uploadRequest:any }) => {
 
     const dispatch = useDispatch(); 
     useEffect(()=>{
 
-        const fileRequestCondition = file.fileId === '' 
-                                && file.progress.waiting === false;
+        const fileRequestCondition = file.id === -1 &&
+                    file.progress.waiting === false;
+
         if (fileRequestCondition) {
             dispatch(uploadRequest(file));
         }
 
-    }, [ index ]);
+    }, []);
 };
 
 export const useOpacity = (waiting:boolean) => {

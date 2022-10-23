@@ -27,12 +27,12 @@ export interface incidentFormTypes {
 
     id: number;
     content: textInput;
-    dateTime: { value: Date, error: string };
+    dateTime: { value: Date; error: string };
     color: textInput;
     video: any;
     generalError: string;
-    graphics: { server: string[][], client: any[] };
-    fileUpload: { images: any[], files: any[], invalidFiles: any[] };
+    graphics: { server: string[][]; client: any[] };
+    fileUpload: { files: any[]; invalidFiles: any[]; fetched: boolean; waiting: boolean; error: string; };
     waiting: boolean;
 }
   

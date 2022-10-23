@@ -14,14 +14,14 @@ import uploadFileChunk from './http';
 function* uploadFile(action:any):any {
 
    try {
-
+ 
         let file = action.payload;
         const payload = {
             id: file.id,  
-            type: file.type,
+            type: file.type, 
             fileId: file.fileId,
             startingByte: file.progress.startingByte,
-            name: file.name, 
+            name: file.name,  
             url: 'http://localhost:5000/incidents/files/upload'
         };
 
@@ -46,7 +46,7 @@ function* uploadFile(action:any):any {
 
             if (success) {
                yield delay(5000);
-               yield put(incidentFileUploadAction(file)); 
+               yield put(incidentFileSetProgressAction(file)); 
               return;
             }
 
@@ -54,14 +54,12 @@ function* uploadFile(action:any):any {
               file = { 
                 ...file, 
                 progress: { 
-                  waiting: true, 
                   startingByte: progress.loaded,
                   percentage: progress.percentage,
                   loaded: progress.loaded
                 }};
-              yield put(incidentFileSetProgressAction(file)); 
+              
             }
-            //yield put(uploadProgress(file, progress));
         }
 
     } catch (e:any) {
@@ -70,28 +68,14 @@ function* uploadFile(action:any):any {
    } finally {
 
     if (yield cancelled()) {
-      return action.payload;
+      console.log('task cancelled');
     }
 
    }
 };
 
 function* uploadFileSaga():any {
-
-  while (true) {
-    
-    const fileUpload = yield fork(function*():any {
-      while (true) {
-        const action = yield take(incidentFileUpload);
-        yield fork(uploadFile, action);
-        
-      }
-    });
-
-    yield take(incidentFilePause);
-    cancel(fileUpload);
-
-  }
+  yield takeEvery(incidentFileUpload, uploadFile);
 };
 
 export default uploadFileSaga; 

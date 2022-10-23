@@ -12,7 +12,7 @@ const UploadButtons: React.FC<FileUploadProps> = ({ actions }) => {
     <Stack direction="row" alignItems="center" spacing={2}>
       <Button variant="contained" component="label" style={{ backgroundColor: 'var(--mainActiveColor)' }}>
         Upload Files 
-        <input onChange={onFileChange} hidden accept="image/*" multiple type="file" />
+        <input onChange={onFileChange} hidden accept="image/*" multiple type="file"  />
       </Button>
     </Stack>
   );

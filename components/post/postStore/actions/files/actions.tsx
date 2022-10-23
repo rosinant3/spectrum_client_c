@@ -6,9 +6,32 @@ import {
     incidentFileWaiting,
     incidentFileUpload,
     incidentFilePause,
-    incidentFileSetProgress
+    incidentFileSetProgress,
+    incidentGetPendingFiles,
+    incidentPendingFilesWaiting,
+    incidentAddPendingFiles
 
 } from './types';
+
+export const incidentAddPendingFilesAction = (payload:any) => {
+    return {
+        payload: payload,
+        type: incidentAddPendingFiles
+    }
+};
+
+export const incidentPendingFilesWaitingAction = () => {
+    return {
+        type: incidentPendingFilesWaiting
+    }
+}
+
+export const incidentGetPendingFilesAction = (incident:number) => {
+    return {
+        type: incidentGetPendingFiles,
+        payload: incident
+    }
+};
 
 export const incidentFileSetProgressAction = (payload:any) => {
 
@@ -16,7 +39,6 @@ export const incidentFileSetProgressAction = (payload:any) => {
         type: incidentFileSetProgress,
         payload: payload
     };
-
 };
 
 export const incidentFilePauseAction = (payload: any) => {

@@ -1,15 +1,14 @@
 import React from 'react';
 import File from './File/File';
-import { FilesContainer, TotalNumber } from './FilesStyles';
+import { FilesContainer } from './FilesStyles';
 import ActionContext from './context';
 
 interface FilesProps {
   files: any; 
-  length: number;
   actions: any;
 };
 
-const Files:React.FC<FilesProps> = ({ files, length, actions }) => {
+const Files:React.FC<FilesProps> = ({ files, actions }) => {
   return ( 
       <FilesContainer>
         <ActionContext.Provider value={actions} >

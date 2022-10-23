@@ -30,7 +30,9 @@ import {
     incidentAddFileId,
     incidentFileWaiting,
     incidentFilePause,
-    incidentFileSetProgress
+    incidentFileSetProgress,
+    incidentPendingFilesWaiting,
+    incidentAddPendingFiles
     
 } from './actions/files/types'; 
 import {
@@ -39,7 +41,9 @@ import {
     addFileIdReducer,
     fileWaitingReducer,
     filePauseReducer,
-    setProgressReducer
+    setProgressReducer,
+    setPendingFilesWaitingReducer,
+    setPendingFilesReducer
 
 } from './reducers/filesReducers/filesReducers';
 
@@ -50,8 +54,8 @@ const incidentForm: incidentFormTypes = {
     generalError: "",
     dateTime: { value: new Date(), error: "" },
     color: { value: "rgba(46, 25, 46, 0.5)", error: "" },
-    graphics: { client: [], server: [] },
-    fileUpload: { images: [], files: [], invalidFiles: [] },
+    graphics: { client: [], server: [] }, 
+    fileUpload: { files: [], invalidFiles: [], fetched: false, waiting: false, error: '' },
     waiting: false 
     /*
     items: [],
@@ -90,6 +94,10 @@ const incidentFormReducer: Reducer = (state : incidentFormTypes = incidentForm, 
     return filePauseReducer(state, action.payload);
     case incidentFileSetProgress:
     return setProgressReducer(state, action.payload);
+    case incidentPendingFilesWaiting: 
+    return setPendingFilesWaitingReducer(state);
+    case incidentAddPendingFiles:
+    return setPendingFilesReducer(state, action.payload);
     default:
     return { ...state };
     }

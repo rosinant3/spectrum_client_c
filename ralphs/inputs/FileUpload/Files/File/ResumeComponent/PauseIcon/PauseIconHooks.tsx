@@ -9,9 +9,10 @@ export const usePause = (filePause:any, file: any) => {
 
     const dispatchFilePause = useCallback(()=>{
 
+        console.log(file);
         dispatch(filePause(file));
 
-    }, []);
+    }, [file]);
 
     return { dispatchFilePause };
 

@@ -23,20 +23,7 @@ const ResumeComponent: React.FC<ResumeComponent> = ({ id, type, progress }) => {
         { (actions:any) => {
 
             return (<IconContainer data-id={id}>
-            {progress.waiting ? 
-                <PauseIcon 
-                
-                    filePause={actions.filePause} 
-                    file={{ id, type }} 
-                    
-                /> :
-                <ResumeIcon 
-                
-                    fileResume={actions.fileResume} 
-                    file={{ id, type }} 
-                
-                />
-            }
+            {progress.paused ? <ResumeIcon fileResume={actions.fileResume} file={{ id, type }} /> : <PauseIcon filePause={actions.filePause} file={{ id, type }} />}
             <ProgressBox>
               {`${progress.percentage}%`}
             </ProgressBox>

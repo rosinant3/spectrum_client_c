@@ -11,16 +11,19 @@ function* uploadRequest(action:any):any {
    try {
 
       const file = action.payload;
-      const data = file.data;
       const payload = {
-         id: file.id, 
+         clientId: file.clientId, 
+         id: -1,
          type: file.type,
-         fileId: ''
+         fileId: '',
+         url: ''
       };
       yield put(incidentFileWaitingAction(payload));
-      const response:any = yield call(postForm, generateFormData({ name: file.name, type: file.type }));
-      const fileId = response.data.fileId;
-      payload.fileId = fileId;
+      const response:any = yield call(postForm, generateFormData(file));
+      const data = response.data;
+      payload.fileId = data.fileId;
+      payload.id = data.id;
+      payload.url = data.url;
       yield put(incidentAddFileIdAction(payload));
 
 

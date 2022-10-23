@@ -1,34 +1,87 @@
 import { setFileType } from './utils';
+import { incidentFormTypes } from '../../interface';
 
-export const addFileIdReducer = (state:any, payload:any) => {
+export const setPendingFilesReducer = (state: incidentFormTypes, payload: any) => {
 
-        const id = payload.id;
-        const type = payload.type;
-        const fileId = payload.fileId;
-        const fileType = setFileType(type);
-        const newFiles = state.fileUpload[fileType].map((file:any)=>{
-                if (file.id == id) {
-                        return { ...file, fileId: fileId, progress: { ...file.progress, waiting: false } };
-                }
-                return file;
+        const newFiles = state.fileUpload.files.slice(0);
+        payload.forEach((file:any)=>{
+                const url = file.url.split(' ');
+                file.url = url[0]; 
+                file.fileId = url[1];
+                file.progress = {
+                        startingByte: -1,
+                        loaded: 0,
+                        percentage: 0,
+                        waiting: false,
+                        processing: false,
+                        paused: false
+                };
+                newFiles.push(file);
         });
-        return {
-                ...state, 
+
+        return { ...state,
                 fileUpload: {
                         ...state.fileUpload,
-                        [fileType]: newFiles,
+                        files: newFiles, 
+                        fetched: true,
+                        waiting: false
                 }
         };
 };
 
-export const setProgressReducer = (state:any, payload:any) => {
+export const setPendingFilesWaitingReducer = (state:incidentFormTypes) =>{
+
+        return {
+                ...state,
+                fileUpload: {
+                        ...state.fileUpload,
+                        waiting: true
+                }
+        };
+};
+
+export const addFileIdReducer = (state:incidentFormTypes, payload:any) => {
+
+        const id = payload.id; 
+        const clientId = payload.clientId;
+        const newFiles = state.fileUpload.files.map((file:any)=>{
+                if (file.clientId == clientId) {
+                        const url = payload.url.split(' ');
+                        return { 
+                                ...file, 
+                                id: id,  
+                                fileId: url[1], 
+                                url: url[0], 
+                                progress: { 
+                                        ...file.progress, 
+                                        waiting: false
+                                }};
+                }
+                return file;
+        });
+  
+        return {
+                ...state, 
+                fileUpload: {
+                        ...state.fileUpload,
+                        files: newFiles,
+                }
+        };
+};
+
+export const setProgressReducer = (state:incidentFormTypes, payload:any) => {
 
         const id = payload.id;
-        const type = payload.type;
-        const fileType = setFileType(type);
-        const newFiles = state.fileUpload[fileType].map((file:any)=>{
+        const newFiles = state.fileUpload.files.map((file:any)=>{
                 if (file.id == id) {
-                        return { ...file, progress: { ...payload.progress } };
+                        
+                        return { ...file, 
+                                progress: { 
+                                        waiting: file.progress.waiting,
+                                        paused: file.progress.paused,
+                                        processing: file.progress.processing,
+                                        ...payload.progress 
+                                }};
                 }
                 return file;
         });
@@ -37,18 +90,16 @@ export const setProgressReducer = (state:any, payload:any) => {
                 ...state, 
                 fileUpload: {
                         ...state.fileUpload,
-                        [fileType]: newFiles,
+                        files: newFiles,
                 }
         };
 };
 
-export const fileWaitingReducer = (state:any, payload:any) => {
+export const fileWaitingReducer = (state:incidentFormTypes, payload:any) => {
 
         const id = payload.id;
-        const type = payload.type;
-        const fileType = setFileType(type);
-        const newFiles = state.fileUpload[fileType].map((file:any)=>{
-                if (file.id == id) {
+        const newFiles = state.fileUpload.files.map((file:any)=>{
+                if (file.id == id || file.clientId == id) {
                         return { ...file, progress: { ...file.progress, waiting: true } };
                 }
                 return file;
@@ -58,19 +109,21 @@ export const fileWaitingReducer = (state:any, payload:any) => {
                 ...state, 
                 fileUpload: {
                         ...state.fileUpload,
-                        [fileType]: newFiles,
+                        files: newFiles,
                 }
-        };
+        }; 
 };
 
-export const filePauseReducer = (state:any, payload:any) => {
+export const filePauseReducer = (state:incidentFormTypes, payload:any) => {
 
         const id = payload.id;
-        const type = payload.type;
-        const fileType = setFileType(type);
-        const newFiles = state.fileUpload[fileType].map((file:any)=>{
+        const newFiles = state.fileUpload.files.map((file:any)=>{
                 if (file.id == id) {
-                        return { ...file, progress: { ...file.progress, waiting: false }};
+                        return { ...file, progress: { 
+                                ...file.progress, 
+                                paused: true, 
+                                startingByte: -1,
+                                waiting: false }};
                 }
                 return file;
         });
@@ -79,26 +132,25 @@ export const filePauseReducer = (state:any, payload:any) => {
                 ...state, 
                 fileUpload: {
                         ...state.fileUpload,
-                        [fileType]: newFiles,
+                        files: newFiles,
                 }
         };
 };
 
-export const addFilesReducer = (state:any, payload:any) => {
+export const addFilesReducer = (state:incidentFormTypes, payload:any) => {
 
         const images = payload.images;
         const files = payload.files;
         const invalidFiles = payload.invalidFiles;
-        const newImages = state.fileUpload.images.slice(0);
         const newFiles = state.fileUpload.files.slice(0);
         const newInvalidFiles = state.fileUpload.invalidFiles.slice(0);
 
-        images.forEach((image:any)=>{
-           newImages.push(image);
-        });
-
         files.forEach((file:any)=>{
           newFiles.push(file);
+        });
+
+        images.forEach((file:any)=>{
+                newFiles.push(file);
         });
 
         invalidFiles.forEach((file:any)=>{
@@ -108,7 +160,7 @@ export const addFilesReducer = (state:any, payload:any) => {
         return {
                 ...state, 
                 fileUpload: {
-                        images: newImages,
+                        ...state.fileUpload,
                         files: newFiles,
                         invalidFiles: newInvalidFiles
                 }

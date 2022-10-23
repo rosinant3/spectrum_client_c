@@ -12,6 +12,7 @@ import {
 import { jsx } from '@emotion/react';
 import RemoveIcon from './RemoveIcon/RemoveIcon';
 import ResumeComponent from './ResumeComponent/ResumeComponent';
+import ProcessingSpinner from './ProcessingSpinner/ProcessingSpinner';
 
 interface FileProps {
   file: any;
@@ -25,13 +26,14 @@ const File: React.FC<FileProps> = ({ file, index, uploadRequest, fileUpload }) =
     const { url } = file;
     const opacity = useOpacity(file.progress.waiting); 
     const style = useEnterAnimation({ index });
-    useFileRequest({ file, index, uploadRequest });
-    useFileUpload({ file, index, fileUpload });
+    useFileRequest({ file, uploadRequest });
+    useFileUpload({ file, fileUpload });
  
   return ( 
       <ImageContainer css={style} style={{ backgroundImage: `url(${url})` }}>
         <RemoveIcon id={file.id}></RemoveIcon>
-        <ResumeComponent id={file.id} type={file.type} progress={file.progress}></ResumeComponent>
+        {!file.progress.processing ? <ResumeComponent id={file.id} type={file.type} progress={file.progress}></ResumeComponent> :
+          <ProcessingSpinner />}
         {opacity && <ImageLoadingAnimation></ImageLoadingAnimation>}
       </ImageContainer>
   );
