@@ -18,5 +18,6 @@ export const MenuButton = styled.div`
     :hover {
         opacity: 0.5;
     }
+    
 
 `;

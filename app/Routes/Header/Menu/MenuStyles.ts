@@ -6,6 +6,10 @@ export const MenuContainer = styled.div`
 
     display: flex;
     flex-direction: row;
+
+    @media (max-width: 750px) {
+        display: none;
+    }
 `;
 
 export const MenuButton = styled.div`
