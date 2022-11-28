@@ -2,9 +2,7 @@ import './App.css';
 import { BrowserRouter } from "react-router-dom";
 import AppRoutes from './Routes/Routes';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import axios from 'axios';
-
-axios.defaults.baseURL = `http://localhost:5000`
+import { useLocalStorage } from './AppHooks';
 
 const theme = createTheme({
     palette: { 
@@ -15,6 +13,9 @@ const theme = createTheme({
 });
 
 function App() {
+  
+  useLocalStorage();
+
   return (<>
   <ThemeProvider theme={theme}>
     <BrowserRouter>

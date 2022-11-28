@@ -31,13 +31,13 @@ const RepeatPasswordInput:React.FC<SpectrumRepeatPasswordInputProps> = ({ input,
             inputProps={{ 
                 maxLength: info.password.max,
             }}  
-            required={true}
+            required={false}
             type='password'
             onChange={passwordOnChange}
             inputRef={inputRefPassword}
             autoComplete="new-password"
             size="small"
-            sx={{ width: '223px' }}
+            sx={{ width: '200px' }}
 
         />
         <TextField 
@@ -50,13 +50,13 @@ const RepeatPasswordInput:React.FC<SpectrumRepeatPasswordInputProps> = ({ input,
             inputProps={{ 
                 maxLength: info.password.max
             }}
-            required={true}
+            required={false}
             type='password'
             onChange={repeatOnChange}
             inputRef={inputRefRepeat}
             autoComplete="new-password"
             size="small"
-            sx={{ width: '223px' }}
+            sx={{ width: '200px' }}
 
         />
     </RepeatPasswordInputContainer>

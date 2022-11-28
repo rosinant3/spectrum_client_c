@@ -2,30 +2,30 @@ import React from 'react';
 import { UserSignUpFormProps } from './Interfaces';
 import {
     FormContainer,
-    FormSection,
-    Title
-} from './UserSingUpFormStyles'; 
+    FormSection
+} from './UserSignUpFormStyles'; 
 import SpectrumInput from '../../Ralphs/SpectrumInput/SpectrumInput';
 import RepeatPasswordInput from '../../Ralphs/RepeatPasswordInput/RepeatPasswordInput';
-import useSingUpStore from './Store/Store';
+import { SignUpStoreContext } from './Store/Store';
 import { Button } from '@mui/material';
-import { useFormSubmit } from './UserSingUpFormHooks';
+import { useFormSubmit, useSaveForm } from './UserSignUpFormHooks';
 import { formValidators, formInfo } from './Utils';
 
 const UserSignUpForm:React.FC<UserSignUpFormProps> = () => {
-
-    const { state, dispatch } = useSingUpStore();
-    const { signUp, submitFunction } = useFormSubmit({ dispatch, formValidators });
+ 
+    const { state, form } = React.useContext(SignUpStoreContext);
+    const { formRef } = useSaveForm({ form });
+    const { signUp, submitFunction } = useFormSubmit({ form, formRef });
  
   return (
-    <FormContainer onSubmit={submitFunction}>
+    <FormContainer ref={formRef} onSubmit={submitFunction}>
         <FormSection>
             <SpectrumInput 
             
                 input={state.firstName}
                 maxLength={formInfo.firstName.max}
                 label={formInfo.firstName.label}
-                required={true}
+                required={false}
                 readonly={false}
                 type='string'
                 multiline={false}
@@ -39,7 +39,7 @@ const UserSignUpForm:React.FC<UserSignUpFormProps> = () => {
                 input={state.lastName}
                 maxLength={formInfo.lastName.max}
                 label={formInfo.lastName.label}
-                required={true}
+                required={false}
                 readonly={false}
                 type='string'
                 multiline={false}
@@ -53,7 +53,7 @@ const UserSignUpForm:React.FC<UserSignUpFormProps> = () => {
                 input={state.username}
                 maxLength={formInfo.username.max}
                 label={formInfo.username.label}
-                required={true}
+                required={false}
                 readonly={false}
                 type='string'
                 multiline={false}
@@ -67,7 +67,7 @@ const UserSignUpForm:React.FC<UserSignUpFormProps> = () => {
                 input={state.email}
                 maxLength={formInfo.email.max}
                 label={formInfo.email.label}
-                required={true}
+                required={false}
                 readonly={false}
                 type='string'
                 multiline={false}
@@ -77,26 +77,26 @@ const UserSignUpForm:React.FC<UserSignUpFormProps> = () => {
     
             />
         </FormSection>
+        <RepeatPasswordInput 
+        
+            input={{
+                password: state.password,
+                repeatPassword: state.repeatPassword
+            }}
+            utils={{
+                validators: {
+                    password: formValidators.password
+                },
+                info: {
+                    password: formInfo.password,
+                    repeatPassword: formInfo.repeatPassword
+                }
+            }}
+            
+        />
         <FormSection>
-            <RepeatPasswordInput 
-            
-                input={{
-                    password: state.password,
-                    repeatPassword: state.repeatPassword
-                }}
-                utils={{
-                    validators: {
-                        password: formValidators.password
-                    },
-                    info: {
-                        password: formInfo.password,
-                        repeatPassword: formInfo.repeatPassword
-                    }
-                }}
-            
-            />
+            <Button color="primary" type="submit" variant="contained">{signUp}</Button>
         </FormSection>
-        <Button color="primary" type="submit" variant="contained">{signUp}</Button>
     </FormContainer>
   );
 }

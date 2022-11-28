@@ -1,4 +1,2 @@
-
-
-
-export const addErrors = 'SIGN_UP_ADD_ERRORS'; 
+export const addErrors = 'ADD_ERRORS';
+export const saveForm = 'SAVE_FORM'; 

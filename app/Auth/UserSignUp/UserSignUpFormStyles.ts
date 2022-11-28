@@ -9,6 +9,7 @@ export const FormContainer = styled.form`
 
 export const FormSection = styled.section`
 
+    text-align: center;
 
     > div {
         margin-bottom: 1rem;

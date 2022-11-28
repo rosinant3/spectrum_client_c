@@ -15,8 +15,10 @@ export const useFieldStatePassword:UseFieldStatePasswordHook = ({ input }) => {
     
     useEffect(()=>{
         if (inputRefPassword.current) {
-            inputRefPassword.current.value = input.value;
-            setFieldStatePassword({ ...fieldStatePassword, init: true });
+            const value = input.value;
+            const touched = value === '' ? true : false;
+            inputRefPassword.current.value = value;
+            setFieldStatePassword({ ...fieldStatePassword, init: true, touched: touched });
         }
     }, [input.value, inputRefPassword]); 
 
@@ -41,9 +43,11 @@ export const useFieldStateRepeat:UseFieldStateRepeatHook = ({ input }) => {
     
 
     useEffect(()=>{
-        if (inputRefRepeat.current) {
-            inputRefRepeat.current.value = input.value;
-            setFieldStateRepeat({ ...fieldStateRepeat, init: true });
+        if (inputRefRepeat.current) { 
+            const value = input.value;
+            const touched = value === '' ? true : false;
+            inputRefRepeat.current.value = value;
+            setFieldStateRepeat({ ...fieldStateRepeat, init: true, touched: touched });
         } 
     }, [input.value, inputRefRepeat]); 
 
@@ -74,6 +78,10 @@ export const usePassword:UsePasswordHook = ({ fieldStatePassword, setFieldStateP
         const { status, msg } = await runValidators(inputValue, validators);
         const isFieldValid = status && fieldStatePassword.touched === true;
         const errorMsg = `Password ${msg}`;
+        
+        if (fieldStatePassword.touched === false) {
+            setFieldStateToTouched();
+        }
 
         if (!isFieldValid && (fieldStatePassword.errorStatus === false || 
             (fieldStatePassword.errorStatus && errorMsg !== fieldStatePassword.errorText))) {
@@ -83,11 +91,7 @@ export const usePassword:UsePasswordHook = ({ fieldStatePassword, setFieldStateP
         if (isFieldValid && fieldStatePassword.errorStatus === true) {
             setFieldStateToInvalid('', false);
         }
-        
-        if (fieldStatePassword.touched === false) {
-            setFieldStateToTouched();
-        }
-
+    
     }, [fieldStatePassword]);
 
     return {  passwordOnChange };
@@ -109,6 +113,10 @@ export const useRepeat:UseRepeatHook = ({ fieldStateRepeat, setFieldStateRepeat,
         const inputValue = target.value.trim();
         const passwordRef:IInputRef = inputRefPassword;
         const passwordValue = passwordRef.current?.value.trim();
+        
+        if (fieldStateRepeat.touched === false) {
+            setFieldStateToTouched();
+        }
 
         if (inputValue !== passwordValue && fieldStateRepeat.errorStatus === false) {
             setFieldStateToInvalid(`Passwords don't match.`, true);
@@ -116,10 +124,6 @@ export const useRepeat:UseRepeatHook = ({ fieldStateRepeat, setFieldStateRepeat,
         
         if (inputValue === passwordValue && fieldStateRepeat.errorStatus === true) {
             setFieldStateToInvalid('', false);
-        }
-
-        if (fieldStateRepeat.touched === false) {
-            setFieldStateToTouched();
         }
 
     }, [fieldStateRepeat, inputRefPassword]);

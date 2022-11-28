@@ -8,10 +8,11 @@ import maxLengthValidator from "../../Ralphs/Validators/MaxLengthValidator/MaxLe
 export const formInfo:IFormInfo = {
     firstName: { min: 1, max: 100, label: 'First Name' },
     lastName: { min: 1, max: 100, label: 'Last Name'},
-    username: { min: 1, max: 100, label: 'Username'},
+    username: { min: 3, max: 100, label: 'Username'},
     email: { min: 1, max: 320, label: 'E-Mail' },
     password: { min: 8, max: 127, label: 'Password' },
-    repeatPassword: { min: 8, max: 127, label: 'Repeat Password' }
+    repeatPassword: { min: 8, max: 127, label: 'Repeat Password' },
+    general: { min: 0, max: 255, label: 'General' }
 };
 
 export const formValidators:IFormValidators = {
@@ -43,7 +44,8 @@ export const formValidators:IFormValidators = {
         maxLengthValidator(formInfo.password.max),
         passwordValidator
     ],
-    repeatPassword: []
+    repeatPassword: [],
+    general: []
 };
 
 export const formKeys: [
@@ -52,26 +54,64 @@ export const formKeys: [
     'username',
     'email',
     'password',
-    'repeatPassword'
+    'repeatPassword',
+    'general'
 ] = [ 
     'firstName', 
     'lastName',  
     'username',
     'email',
     'password',
-    'repeatPassword'
+    'repeatPassword',
+    'general'
 ];
 
 export const generateFormData = (form:any) => {
     return {
-        firstName: form[0].value,
-        lastName: form[2].value,
-        username: form[4].value,
-        email: form[6].value,
-        password: form[8].value,
-        repeatPassword: form[10].value
+        firstName: form[0].value.trim(),
+        lastName: form[2].value.trim(),
+        username: form[4].value.trim(),
+        email: form[6].value.trim(),
+        password: form[8].value.trim(),
+        repeatPassword: form[10].value.trim(),
+        general: ''
     };
-}
+};
+
+const clearString = (string:string) => {
+    return string.replaceAll("\"", "");
+};
+
+export const createErrorsFromServer = (error:string) => {
+
+    const errors = {
+        firstName: '',
+        lastName: '',
+        username: '',
+        email: '',
+        password: '',
+        repeatPassword: '',
+        general: ''
+    };
+
+    if (error.includes('First Name')) {
+        errors['firstName'] = clearString(error) + '.';
+    } else if (error.includes('Last Name')) {
+        errors['lastName'] = clearString(error) + '.';
+    } else if (error.includes('Username')) {
+        errors['username'] = clearString(error) + '.';
+    } else if (error.includes('E-Mail')) {
+        errors['email'] = clearString(error + '.');
+    } else if (error.includes('Password')) {
+        errors['password'] = clearString(error) + '.';
+    } else if (error.includes('Repeat Password')) {
+        errors['repeatPassword'] = "Passwords don't match.";
+    } else {
+        errors['general'] = clearString(error);
+    }
+
+    return errors;
+};
 
 export const validateFormData = async (formData:IFormData) => {
 
@@ -81,7 +121,8 @@ export const validateFormData = async (formData:IFormData) => {
         username: '',
         email: '',
         password: '',
-        repeatPassword: ''
+        repeatPassword: '',
+        general: ''
     };
     let state = false;
 
@@ -94,6 +135,11 @@ export const validateFormData = async (formData:IFormData) => {
                 break;
             }
         }
+    }
+
+    if (formData.password !== formData.repeatPassword) {
+        errors.repeatPassword = `Passwords don't match.`;
+        state = true;
     }
 
     return { errors, state };

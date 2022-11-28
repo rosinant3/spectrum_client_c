@@ -11,40 +11,48 @@ import {
 import {
     AuthDashboardProps
 } from './Interfaces';
-import {
-  useAuthToggle
-} from './AuthDashboardHooks';
 import SpectrumLoader from '../Ralphs/SpectrumLoader/SpectrumLoader';
+import useAuthStore, { AuthContext } from './Store/Store';
+import useSingUpStore, { SignUpStoreContext } from './UserSignUp/Store/Store';
+import { singUpText, loginText } from './Store/Store';
 const SignIn = React.lazy(() => import('./SignIn/SignIn'));
 const Register = React.lazy(() => import('./Register/Register'));
 
 const AuthDashboard:React.FC<AuthDashboardProps> = () => {
 
-  const { formState, setState } = useAuthToggle();
+  const { signUpValue } = useSingUpStore();
+  const { authValue } = useAuthStore();
+  const { state, toggleAuthType } = authValue;
+  const isLogin = state.authType === 'login';
+  const isRegister = state.authType === 'register'; 
  
   return (
-    <AuthDashboardContainer>
-      <HeaderOverlay></HeaderOverlay>
-      <AuthDashboardGrid>
-        <AuthImage>
-        </AuthImage>
-        <FormContainer>
-          {formState.state === 'login' ?
-          <Suspense fallback={<SpectrumLoader />}>
-            <SignIn />
-          </Suspense>
-          :
-          <Suspense fallback={<SpectrumLoader />}>
-           <Register />
-          </Suspense>
-          }
-          <StateContainer>
-            <StateText onClick={setState}>{formState.text}</StateText>
-          </StateContainer>
-        </FormContainer>
-      </AuthDashboardGrid>
-    </AuthDashboardContainer>
+    <AuthContext.Provider value={authValue}>
+      <AuthDashboardContainer>
+        <HeaderOverlay></HeaderOverlay>
+        <AuthDashboardGrid>
+          <AuthImage>
+          </AuthImage>
+          <FormContainer> 
+            {isRegister && 
+            <Suspense fallback={<SpectrumLoader />}>
+              <SignIn />
+            </Suspense>}
+            {isLogin && 
+            <Suspense fallback={<SpectrumLoader />}>
+             <SignUpStoreContext.Provider value={signUpValue}>
+               <Register />
+              </SignUpStoreContext.Provider>
+            </Suspense>}
+            <StateContainer>
+              <StateText onClick={toggleAuthType}>{isLogin ? singUpText : loginText}</StateText>
+            </StateContainer>
+          </FormContainer>
+        </AuthDashboardGrid>
+      </AuthDashboardContainer>
+    </AuthContext.Provider>
+
   );
-}
+};
 
 export default AuthDashboard;

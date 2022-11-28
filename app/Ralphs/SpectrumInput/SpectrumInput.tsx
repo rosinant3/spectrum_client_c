@@ -32,14 +32,14 @@ const SpectrumInput:React.FC<SpectrumInputProps> = ({ input, label, maxLength, r
             required={required}
             type={type}
             onChange={textFieldOnChange}
-            ref={inputRef}
+            inputRef={inputRef}
             autoComplete="new-password"
             size="small"
-            sx={{ width: '223px' }}
+            sx={{ width: '200px' }}
 
         />
     </SpectrumInputContainer>
   );
-}
+};
 
 export default SpectrumInput;
