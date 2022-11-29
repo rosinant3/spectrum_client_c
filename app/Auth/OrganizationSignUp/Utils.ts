@@ -6,8 +6,7 @@ import minLengthValidator from "../../Ralphs/Validators/MinLengthValidator/MinLe
 import maxLengthValidator from "../../Ralphs/Validators/MaxLengthValidator/MaxLengthValidator";
 
 export const formInfo:IFormInfo = {
-    firstName: { min: 1, max: 100, label: 'First Name' },
-    lastName: { min: 1, max: 100, label: 'Last Name'},
+    orgName: { min: 1, max: 100, label: 'Organization Name' },
     username: { min: 3, max: 100, label: 'Username'},
     email: { min: 1, max: 320, label: 'E-Mail' },
     password: { min: 8, max: 127, label: 'Password' },
@@ -16,19 +15,13 @@ export const formInfo:IFormInfo = {
 };
 
 export const formValidators:IFormValidators = {
-    firstName: [ 
+    orgName: [ 
        /* isNotEmptyValidator, */
-        minLengthValidator(formInfo.firstName.min), 
-        maxLengthValidator(formInfo.firstName.max)  
-    ],
-    lastName: [ 
-       /* isNotEmptyValidator, */
-        minLengthValidator(formInfo.lastName.min), 
-        maxLengthValidator(formInfo.lastName.max)  
+        minLengthValidator(formInfo.orgName.min), 
+        maxLengthValidator(formInfo.orgName.max)  
     ],
     username: [ 
         /*isNotEmptyValidator, */
-        
         minLengthValidator(formInfo.username.min), 
         maxLengthValidator(formInfo.username.max),
         alphaNumericValidator
@@ -49,16 +42,14 @@ export const formValidators:IFormValidators = {
 };
 
 export const formKeys: [
-    'firstName', 
-    'lastName', 
+    'orgName', 
     'username',
     'email',
     'password',
     'repeatPassword',
     'general'
 ] = [ 
-    'firstName', 
-    'lastName',  
+    'orgName', 
     'username',
     'email',
     'password',
@@ -68,12 +59,11 @@ export const formKeys: [
 
 export const generateFormData = (form:any) => {
     return {
-        firstName: form[0].value.trim(),
-        lastName: form[2].value.trim(),
-        username: form[4].value.trim(),
-        email: form[6].value.trim(),
-        password: form[8].value,
-        repeatPassword: form[10].value,
+        ogrName: form[0].value.trim(),
+        username: form[2].value.trim(),
+        email: form[4].value.trim(),
+        password: form[6].value,
+        repeatPassword: form[8].value,
         general: ''
     };
 };
@@ -85,8 +75,7 @@ const clearString = (string:string) => {
 export const createErrorsFromServer = (error:string) => {
 
     const errors = {
-        firstName: '',
-        lastName: '',
+        orgName: '',
         username: '',
         email: '',
         password: '',
@@ -95,9 +84,7 @@ export const createErrorsFromServer = (error:string) => {
     };
 
     if (error.includes('First Name')) {
-        errors['firstName'] = clearString(error) + '.';
-    } else if (error.includes('Last Name')) {
-        errors['lastName'] = clearString(error) + '.';
+        errors['orgName'] = clearString(error) + '.';
     } else if (error.includes('Username')) {
         errors['username'] = clearString(error) + '.';
     } else if (error.includes('E-Mail')) {
@@ -116,8 +103,7 @@ export const createErrorsFromServer = (error:string) => {
 export const validateFormData = async (formData:IFormData) => {
 
     const errors = {
-        firstName: '',
-        lastName: '',
+        orgName: '',
         username: '',
         email: '',
         password: '',

@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 
-export const SignInHeader = styled.h1`
+export const LoginHeader = styled.h1`
 
     cursor: default;
     margin-top: 0rem;

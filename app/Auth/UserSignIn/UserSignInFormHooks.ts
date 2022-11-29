@@ -2,13 +2,13 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useFormSubmitHook, submitFunctionCallback, useSaveFormHook, IFormData } from './Interfaces';
 import { validateFormData, generateFormData, createErrorsFromServer } from './Utils';
-import { signUpUser } from './Http';
+import { signInUser } from './Http';
 import { registerUserAction } from '../../Stores/UserStore/Actions/Actions';
 import { useNavigate  } from "react-router-dom";
 
 export const useFormSubmit:useFormSubmitHook = ({ form, formRef }) => {
  
-    const [ signUp, setSignUp ] = useState('Sign Up');
+    const [ login, setLogin ] = useState('Login');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ export const useFormSubmit:useFormSubmitHook = ({ form, formRef }) => {
 
         if (!formRef.current) return;
 
-        setSignUp('Sign Up');
+        setLogin('Login');
         let error = '';
 
         if (e.response) {
@@ -33,7 +33,7 @@ export const useFormSubmit:useFormSubmitHook = ({ form, formRef }) => {
     const submitFunction:submitFunctionCallback = useCallback(async (e)=>{
 
         e.preventDefault(); 
-        if (signUp === 'Signing Up...') return;
+        if (login === 'Loggin In...') return;
 
         const targetForm:any = e.target;
         const formData = generateFormData(targetForm);
@@ -46,10 +46,10 @@ export const useFormSubmit:useFormSubmitHook = ({ form, formRef }) => {
 
         try {
 
-            setSignUp('Signing Up...');
+            setLogin('Loggin In...');
             delete formData.general;
 
-            const res = await signUpUser(formData);
+            const res = await signInUser(formData);
 
                 dispatch(registerUserAction(res.data));
                 navigate("/profile");
@@ -58,9 +58,9 @@ export const useFormSubmit:useFormSubmitHook = ({ form, formRef }) => {
             handleSubmitError(e);
         }
 
-    }, [ signUp ]);
+    }, [ login ]);
 
-    return { signUp, submitFunction };
+    return { login, submitFunction };
 };
 
 export const useSaveForm:useSaveFormHook = ({ form }) => {

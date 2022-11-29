@@ -1,7 +1,8 @@
 import React from 'react';
-import { SignInHeader, TypeSpan } from '../SignIn/SignInStyles';
+import { LoginHeader, TypeSpan } from '../Login/LoginStyles';
 import useActiveLoginOpacity from '../../Ralphs/Hooks/useActiveLoginOpacity/useActiveLoginOpacity';
 import UserSignUpForm from '../UserSignUp/UserSignUpForm';
+import OrgSignUpForm from '../OrganizationSignUp/OrgSignUpForm';
 import { AuthContext } from '../Store/Store';
 
 function Register() { 
@@ -13,9 +14,9 @@ function Register() {
   const isOrganization = registerType === 'organization';
 
   return (<div ref={containerRef}> 
-        <SignInHeader>Register <TypeSpan className="user" onClick={setRegisterTypeToUser}>User</TypeSpan> | <TypeSpan onClick={setRegisterTypeToOrganization} className="organization" >Organization</TypeSpan></SignInHeader>
-        { isUser && <UserSignUpForm />}
-        { isOrganization && <div>Organization Sign Up</div> }
+        <LoginHeader>Register <TypeSpan className="user" onClick={setRegisterTypeToUser}>User</TypeSpan> | <TypeSpan onClick={setRegisterTypeToOrganization} className="organization" >Organization</TypeSpan></LoginHeader>
+        { isUser && <UserSignUpForm /> }
+        { isOrganization && <OrgSignUpForm /> }
   </div>); 
 };
 

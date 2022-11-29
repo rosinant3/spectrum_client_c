@@ -4,11 +4,10 @@ import { addErrors, saveForm } from './Types';
 import { generateStore } from './Actions';
 import { addErrorsReducer, saveFormReducer } from './ReducerFunctions';
 
-export const UserSignUpStoreContext = React.createContext({} as ProviderValue);
+export const OrgSignUpStoreContext = React.createContext({} as ProviderValue);
    
 const initialState:ISignupStore = { 
-  firstName: { value: '', error: '', readonly: false },
-  lastName: { value: '', error: '', readonly: false }, 
+  orgName: { value: '', error: '', readonly: false },
   username: { value: '', error: '', readonly: false },
   email: { value: '', error: '', readonly: false },
   password: { value: '', error: '', readonly: false },
@@ -27,10 +26,10 @@ const reducer:storeReducer = (state, action) => {
   }
 };
 
-const useUserSingUpStore = () => { 
+const useOrgSingUpStore = () => { 
   const [state, dispatch] = useReducer(reducer, initialState);
   const { value } = generateStore(state, dispatch);
-  return { userSignUpValue: value };
+  return { orgSignUpValue: value };
 }
 
-export default useUserSingUpStore;
+export default useOrgSingUpStore;

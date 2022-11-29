@@ -1,79 +1,41 @@
 import { IFormValidators, IFormData, IFormInfo } from './Interfaces';
-import emailValidator from "../../Ralphs/Validators/EmailValidator/EmailValidator";
 import alphaNumericValidator from "../../Ralphs/Validators/AlphaNumericalValidator/AlphaNumericalValidator";
-import passwordValidator from "../../Ralphs/Validators/PasswordValidator/PasswordValidator";
 import minLengthValidator from "../../Ralphs/Validators/MinLengthValidator/MinLengthValidator";
 import maxLengthValidator from "../../Ralphs/Validators/MaxLengthValidator/MaxLengthValidator";
 
 export const formInfo:IFormInfo = {
-    firstName: { min: 1, max: 100, label: 'First Name' },
-    lastName: { min: 1, max: 100, label: 'Last Name'},
     username: { min: 3, max: 100, label: 'Username'},
-    email: { min: 1, max: 320, label: 'E-Mail' },
     password: { min: 8, max: 127, label: 'Password' },
-    repeatPassword: { min: 8, max: 127, label: 'Repeat Password' },
     general: { min: 0, max: 255, label: 'General' }
 };
 
 export const formValidators:IFormValidators = {
-    firstName: [ 
-       /* isNotEmptyValidator, */
-        minLengthValidator(formInfo.firstName.min), 
-        maxLengthValidator(formInfo.firstName.max)  
-    ],
-    lastName: [ 
-       /* isNotEmptyValidator, */
-        minLengthValidator(formInfo.lastName.min), 
-        maxLengthValidator(formInfo.lastName.max)  
-    ],
     username: [ 
-        /*isNotEmptyValidator, */
-        
         minLengthValidator(formInfo.username.min), 
         maxLengthValidator(formInfo.username.max),
         alphaNumericValidator
     ],
-    email: [ 
-      /*  isNotEmptyValidator, */
-        minLengthValidator(formInfo.email.min), 
-        maxLengthValidator(formInfo.email.max),
-        emailValidator 
-    ],
     password: [
         minLengthValidator(formInfo.password.min), 
         maxLengthValidator(formInfo.password.max),
-        passwordValidator
     ],
-    repeatPassword: [],
     general: []
 };
 
 export const formKeys: [
-    'firstName', 
-    'lastName', 
     'username',
-    'email',
     'password',
-    'repeatPassword',
     'general'
 ] = [ 
-    'firstName', 
-    'lastName',  
     'username',
-    'email',
     'password',
-    'repeatPassword',
     'general'
 ];
 
 export const generateFormData = (form:any) => {
     return {
-        firstName: form[0].value.trim(),
-        lastName: form[2].value.trim(),
-        username: form[4].value.trim(),
-        email: form[6].value.trim(),
-        password: form[8].value,
-        repeatPassword: form[10].value,
+        username: form[0].value.trim(),
+        password: form[2].value,
         general: ''
     };
 };
@@ -85,27 +47,15 @@ const clearString = (string:string) => {
 export const createErrorsFromServer = (error:string) => {
 
     const errors = {
-        firstName: '',
-        lastName: '',
         username: '',
-        email: '',
         password: '',
-        repeatPassword: '',
         general: ''
     };
 
-    if (error.includes('First Name')) {
-        errors['firstName'] = clearString(error) + '.';
-    } else if (error.includes('Last Name')) {
-        errors['lastName'] = clearString(error) + '.';
-    } else if (error.includes('Username')) {
+    if (error.includes('Username')) {
         errors['username'] = clearString(error) + '.';
-    } else if (error.includes('E-Mail')) {
-        errors['email'] = clearString(error + '.');
     } else if (error.includes('Password')) {
         errors['password'] = clearString(error) + '.';
-    } else if (error.includes('Repeat Password')) {
-        errors['repeatPassword'] = "Passwords don't match.";
     } else {
         errors['general'] = clearString(error);
     }
@@ -116,12 +66,8 @@ export const createErrorsFromServer = (error:string) => {
 export const validateFormData = async (formData:IFormData) => {
 
     const errors = {
-        firstName: '',
-        lastName: '',
         username: '',
-        email: '',
         password: '',
-        repeatPassword: '',
         general: ''
     };
     let state = false;
@@ -135,11 +81,6 @@ export const validateFormData = async (formData:IFormData) => {
                 break;
             }
         }
-    }
-
-    if (formData.password !== formData.repeatPassword) {
-        errors.repeatPassword = `Passwords don't match.`;
-        state = true;
     }
 
     return { errors, state };

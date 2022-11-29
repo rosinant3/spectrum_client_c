@@ -1,20 +1,20 @@
 import React from 'react';
-import { UserSignUpFormProps } from './Interfaces';
+import { OrgSignUpFormProps } from './Interfaces';
 import {
     FormContainer,
     FormSection
-} from './UserSignUpFormStyles'; 
+} from './OrgSignUpFormStyles'; 
 import SpectrumInput from '../../Ralphs/SpectrumInput/SpectrumInput';
 import RepeatPasswordInput from '../../Ralphs/RepeatPasswordInput/RepeatPasswordInput';
 import { ErrorText } from '../../Ralphs/Styles/General';
-import { UserSignUpStoreContext } from './Store/Store';
+import { OrgSignUpStoreContext } from './Store/Store';
 import { Button } from '@mui/material';
-import { useFormSubmit, useSaveForm } from './UserSignUpFormHooks';
+import { useFormSubmit, useSaveForm } from './OrgSignUpFormHooks';
 import { formValidators, formInfo } from './Utils';
 
-const UserSignUpForm:React.FC<UserSignUpFormProps> = () => {
+const OrgSignUpForm:React.FC<OrgSignUpFormProps> = () => {
  
-    const { state, form } = React.useContext(UserSignUpStoreContext);
+    const { state, form } = React.useContext(OrgSignUpStoreContext);
     const { formRef } = useSaveForm({ form });
     const { signUp, submitFunction } = useFormSubmit({ form, formRef });
  
@@ -23,31 +23,17 @@ const UserSignUpForm:React.FC<UserSignUpFormProps> = () => {
         <FormSection>
             <SpectrumInput 
             
-                input={state.firstName}
-                maxLength={formInfo.firstName.max}
-                label={formInfo.firstName.label}
+                input={state.orgName}
+                maxLength={formInfo.orgName.max}
+                label={formInfo.orgName.label}
                 required={false}
                 readonly={false}
                 type='text'
                 multiline={false}
                 utils={{
-                    validators: formValidators.firstName
+                    validators: formValidators.orgName
                 }}
 
-            />
-            <SpectrumInput 
-            
-                input={state.lastName}
-                maxLength={formInfo.lastName.max}
-                label={formInfo.lastName.label}
-                required={false}
-                readonly={false}
-                type='text'
-                multiline={false}
-                utils={{
-                    validators: formValidators.lastName
-                }}
-            
             />
             <SpectrumInput 
             
@@ -105,4 +91,4 @@ const UserSignUpForm:React.FC<UserSignUpFormProps> = () => {
   );
 }
 
-export default UserSignUpForm;
+export default OrgSignUpForm;
