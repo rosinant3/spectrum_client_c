@@ -5,9 +5,9 @@ import passwordValidator from "../../Ralphs/Validators/PasswordValidator/Passwor
 import minLengthValidator from "../../Ralphs/Validators/MinLengthValidator/MinLengthValidator";
 import maxLengthValidator from "../../Ralphs/Validators/MaxLengthValidator/MaxLengthValidator";
 
-export const formInfo:IFormInfo = {
+export const formInfo:IFormInfo = { 
     orgName: { min: 1, max: 100, label: 'Organization Name' },
-    username: { min: 3, max: 100, label: 'Username'},
+    username: { min: 3, max: 100, label: 'Username' },
     email: { min: 1, max: 320, label: 'E-Mail' },
     password: { min: 8, max: 127, label: 'Password' },
     repeatPassword: { min: 8, max: 127, label: 'Repeat Password' },
@@ -59,7 +59,7 @@ export const formKeys: [
 
 export const generateFormData = (form:any) => {
     return {
-        ogrName: form[0].value.trim(),
+        orgName: form[0].value.trim(),
         username: form[2].value.trim(),
         email: form[4].value.trim(),
         password: form[6].value,
@@ -86,9 +86,9 @@ export const createErrorsFromServer = (error:string) => {
     if (error.includes('First Name')) {
         errors['orgName'] = clearString(error) + '.';
     } else if (error.includes('Username')) {
-        errors['username'] = clearString(error) + '.';
+        errors['username'] = clearString(error);
     } else if (error.includes('E-Mail')) {
-        errors['email'] = clearString(error + '.');
+        errors['email'] = clearString(error);
     } else if (error.includes('Password')) {
         errors['password'] = clearString(error) + '.';
     } else if (error.includes('Repeat Password')) {

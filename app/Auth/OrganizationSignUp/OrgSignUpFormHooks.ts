@@ -19,8 +19,9 @@ export const useFormSubmit:useFormSubmitHook = ({ form, formRef }) => {
         setSignUp('Sign Up');
         let error = '';
 
-        if (e.response) {
+        if (e.response && e.response.data.error) {
             error = e.response.data.error;
+
         } else {
             error = 'Internal Server Error.'
         }
@@ -50,11 +51,11 @@ export const useFormSubmit:useFormSubmitHook = ({ form, formRef }) => {
             delete formData.general;
 
             const res = await signUpUser(formData);
-
+ 
                 dispatch(registerUserAction(res.data));
                 navigate("/profile");
 
-        } catch (e:any) {
+        } catch (e:any) { 
             handleSubmitError(e);
         }
 
@@ -76,7 +77,7 @@ export const useSaveForm:useSaveFormHook = ({ form }) => {
         return () => {
             if (!savedForm) return;
             const formData = generateFormData(savedForm);
-            form.saveForm(formData);
+            form.saveForm(formData); 
         }
     }, [savedForm]);
 

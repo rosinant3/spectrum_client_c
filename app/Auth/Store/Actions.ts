@@ -45,6 +45,7 @@ const generateStore:generateStoreFunction = (state, dispatch) => {
           toggleAuthType: () => {
             const type = state.authType === 'login' ? 'register' : 'login';
             dispatch(setAuthTypeAction(type));
+            window.scrollTo({ top: 0, behavior: 'smooth' });
           }
         }
     };

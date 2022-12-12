@@ -21,7 +21,6 @@ export const useLocalStorage = () => {
 
     useEffect(()=>{
 
-        console.log('listening to local storage');
         const storageListener = (event:StorageEvent) => {
 
             const key = event.key;

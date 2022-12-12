@@ -29,10 +29,10 @@ const store: IModuleStore<any> = createStore(
 );
 
 store.subscribe(()=>{
-  const user_ = store.getState().user;
-  const user = localStorage.getItem('user');
-  if (user_.userId !== -1 && user === null) {
-    localStorage.setItem('user', JSON.stringify(user_))
+  const user = store.getState().user;
+  const storageUser = localStorage.getItem('user'); 
+  if ((user.userId !== -1 || user.organizationId !== -1 ) && storageUser === null) {
+    localStorage.setItem('user', JSON.stringify(user));
   }
 });
 

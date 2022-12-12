@@ -14,12 +14,14 @@ export const useFieldState:UseFieldStateHook = ({ input }) => {
     });
 
     useEffect(()=>{
+
         if (inputRef.current) {
-            const value = input.value;
-            const touched = value === '' ? true : false;
+            const value = input.value.trim();
             inputRef.current.value = value;
+            const touched = value === '' ? false : true;
             setFieldState({ ...fieldState, init: true, touched: touched });
         }
+
     }, [input.value, inputRef]); 
 
     useEffect(()=>{
@@ -48,10 +50,7 @@ export const useTextField:TextFieldHook = ({ validators, label, fieldState, setF
         const { status, msg } = await runValidators(inputValue, validators);
         const isFieldValid = status && fieldState.touched === true;
         const errorMsg = `${label} ${msg}`;
-        
-        if (fieldState.touched === false) {
-            setFieldStateToTouched();
-        }
+
 
         if (!isFieldValid && fieldState.errorStatus === false && errorMsg !== fieldState.errorText) {
             setFieldStateToInvalid(errorMsg, true);
@@ -60,6 +59,11 @@ export const useTextField:TextFieldHook = ({ validators, label, fieldState, setF
         if (isFieldValid && fieldState.errorStatus === true) {
             setFieldStateToInvalid('', false);
         }
+
+        if (fieldState.touched === false) {
+            setFieldStateToTouched();
+        }
+        
     }, [fieldState]);
 
     return {  textFieldOnChange };

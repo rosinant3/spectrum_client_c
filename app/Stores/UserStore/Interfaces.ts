@@ -11,6 +11,7 @@ export interface UserTypes {
     verified: 0 | 1,
     active: 0 | 1,
     userId: number;
+    organizationId: number;
     userType: 'user' | 'organization';
     directory: string;
     permissions: {

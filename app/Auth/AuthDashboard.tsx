@@ -39,6 +39,7 @@ const AuthDashboard:React.FC<AuthDashboardProps> = () => {
           </AuthImage>
           <FormContainer> 
             {isLogin && 
+            
             <Suspense fallback={<SpectrumLoader />}>
               
               <UserSignInStoreContext.Provider value={userSignInValue}>
@@ -47,12 +48,14 @@ const AuthDashboard:React.FC<AuthDashboardProps> = () => {
 
             </Suspense>}
             {isRegister && 
+
             <Suspense fallback={<SpectrumLoader />}>
               <OrgSignUpStoreContext.Provider value={orgSignUpValue}>
                 <UserSignUpStoreContext.Provider value={userSignUpValue}>
                   <Register />
                 </UserSignUpStoreContext.Provider>
               </OrgSignUpStoreContext.Provider>
+
             </Suspense>}
             <StateContainer>
               <StateText onClick={toggleAuthType}>{isLogin ? singUpText : loginText}</StateText>

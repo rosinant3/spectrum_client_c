@@ -3,7 +3,7 @@ import {
     UserTypes,
     adminActionTypes
 } from './Interfaces';
-import { loginUser } from './Types/Types';
+import { loginUser, logoutUser } from './Types/Types';
 import {
     registerUserReducer
 } from './Reducers/Reducers';
@@ -16,6 +16,7 @@ const userStore: UserTypes = {
     verified: 0,
     active: 1,
     userId: -1,
+    organizationId: -1,
     userType: 'user',
     directory: '',
     permissions: {
@@ -35,6 +36,8 @@ const userStoreReducer: Reducer = (state: UserTypes = persistedState, action: An
     switch (action.type) {
     case loginUser:
         return registerUserReducer(state, action.payload);
+    case logoutUser:
+        return { ...userStore };
     default:
     return { ...state };
     }

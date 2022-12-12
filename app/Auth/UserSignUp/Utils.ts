@@ -99,9 +99,9 @@ export const createErrorsFromServer = (error:string) => {
     } else if (error.includes('Last Name')) {
         errors['lastName'] = clearString(error) + '.';
     } else if (error.includes('Username')) {
-        errors['username'] = clearString(error) + '.';
+        errors['username'] = clearString(error);
     } else if (error.includes('E-Mail')) {
-        errors['email'] = clearString(error + '.');
+        errors['email'] = clearString(error);
     } else if (error.includes('Password')) {
         errors['password'] = clearString(error) + '.';
     } else if (error.includes('Repeat Password')) {
